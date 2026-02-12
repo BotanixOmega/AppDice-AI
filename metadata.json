@@ -1,0 +1,5 @@
+{
+  "name": "AppDice AI",
+  "description": "An AI-powered application for ideating, validating, naming, and pricing new app ideas. It guides users through a multi-phase process from initial concept to marketing strategy.",
+  "requestFramePermissions": []
+}

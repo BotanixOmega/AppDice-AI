@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AppDice AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Bahnschrift is not on Google Fonts, using a similar modern sans-serif as fallback */
+        @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&display=swap');
+        
+        body {
+            font-family: 'Red Hat Display', sans-serif;
+            background-color: #F0F2F5; /* Cloud Dancer */
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Titillium Web', 'Bahnschrift', sans-serif;
+        }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'cloud-dancer': '#F0F2F5',
+              'midnight-navy': '#0D1B2A',
+              'cyber-lime': '#CCFF00',
+            },
+            fontFamily: {
+              heading: ['Titillium Web', 'Bahnschrift', 'sans-serif'],
+              body: ['Red Hat Display', 'sans-serif'],
+            },
+            animation: {
+              'spin-slow': 'spin 8s linear infinite',
+            },
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.38.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
