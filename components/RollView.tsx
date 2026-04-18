@@ -30,58 +30,62 @@ const ConfigPanel: React.FC<{config: RollConfig, setConfig: React.Dispatch<React
     };
 
     return (
-        <div className="p-4 bg-midnight-navy text-cloud-dancer h-full overflow-y-auto">
+        <div className="p-4 bg-midnight-navy text-cloud-dancer h-full overflow-y-auto pb-24 md:pb-4">
             <h3 className="text-xl font-heading text-cyber-lime mb-4">Roll Parameters</h3>
             
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-6">
                 <div>
-                    <label className="block text-sm font-medium mb-1">Industry</label>
-                    <input type="text" value={config.industry} onChange={e => setConfig(p => ({...p, industry: e.target.value}))} className="w-full bg-cloud-dancer/10 p-2 rounded-md border border-cloud-dancer/20 focus:ring-cyber-lime focus:border-cyber-lime"/>
+                    <label className="block text-sm font-medium mb-1 opacity-70">Industry</label>
+                    <input type="text" value={config.industry} onChange={e => setConfig(p => ({...p, industry: e.target.value}))} className="w-full bg-cloud-dancer/10 p-3 rounded-xl border border-cloud-dancer/20 focus:ring-2 focus:ring-cyber-lime focus:border-transparent outline-none transition-all"/>
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium mb-2">Target Audience</label>
-                    <div className="space-y-2">
-                        {TARGET_AUDIENCES.map(aud => (
-                            <label key={aud} className="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" checked={config.targetAudience.includes(aud)} onChange={() => handleAudienceChange(aud)} className="form-checkbox h-4 w-4 bg-cloud-dancer/20 border-cloud-dancer/30 text-cyber-lime focus:ring-cyber-lime"/>
-                                <span className="capitalize">{aud}</span>
-                            </label>
-                        ))}
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium mb-2 opacity-70">Target Audience</label>
+                        <div className="space-y-2">
+                            {TARGET_AUDIENCES.map(aud => (
+                                <label key={aud} className="flex items-center space-x-2 cursor-pointer group">
+                                    <input type="checkbox" checked={config.targetAudience.includes(aud)} onChange={() => handleAudienceChange(aud)} className="form-checkbox h-4 w-4 bg-cloud-dancer/20 border-cloud-dancer/30 text-cyber-lime rounded focus:ring-cyber-lime"/>
+                                    <span className="capitalize text-xs group-hover:text-cyber-lime transition-colors">{aud}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium mb-2 opacity-70">Platform</label>
+                        <div className="space-y-2">
+                            {PLATFORMS.map(plat => (
+                                <label key={plat} className="flex items-center space-x-2 cursor-pointer group">
+                                    <input type="checkbox" checked={config.platform.includes(plat)} onChange={() => handlePlatformChange(plat)} className="form-checkbox h-4 w-4 bg-cloud-dancer/20 border-cloud-dancer/30 text-cyber-lime rounded focus:ring-cyber-lime"/>
+                                    <span className="capitalize text-xs group-hover:text-cyber-lime transition-colors">{plat}</span>
+                                </label>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-2">Platform</label>
-                    <div className="space-y-2">
-                        {PLATFORMS.map(plat => (
-                            <label key={plat} className="flex items-center space-x-2 cursor-pointer">
-                                <input type="checkbox" checked={config.platform.includes(plat)} onChange={() => handlePlatformChange(plat)} className="form-checkbox h-4 w-4 bg-cloud-dancer/20 border-cloud-dancer/30 text-cyber-lime focus:ring-cyber-lime"/>
-                                <span className="capitalize">{plat}</span>
-                            </label>
-                        ))}
-                    </div>
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium mb-2">Subscription Value ($)</label>
+                    <label className="block text-sm font-medium mb-2 opacity-70">Subscription Value ($)</label>
                     <div className="flex flex-wrap gap-2">
                         {SUBSCRIPTION_VALUES.map(val => (
-                            <button key={val} onClick={() => setConfig(p => ({...p, subscriptionValue: val}))} className={`px-3 py-1 text-sm rounded-full border ${config.subscriptionValue === val ? 'bg-cyber-lime text-midnight-navy border-cyber-lime' : 'border-cloud-dancer/30 hover:bg-cloud-dancer/10'}`}>
+                            <button key={val} onClick={() => setConfig(p => ({...p, subscriptionValue: val}))} className={`px-4 py-2 text-xs font-bold rounded-xl border transition-all ${config.subscriptionValue === val ? 'bg-cyber-lime text-midnight-navy border-cyber-lime shadow-[0_0_10px_rgba(204,255,0,0.3)]' : 'border-cloud-dancer/30 hover:bg-cloud-dancer/10'}`}>
                                 {val}
                             </button>
                         ))}
                     </div>
                 </div>
 
-                 <div>
-                    <label className="block text-sm font-medium mb-1">Complexity: {config.complexity}/5</label>
-                    <input type="range" min="0" max="5" value={config.complexity} onChange={e => setConfig(p => ({...p, complexity: +e.target.value}))} className="w-full h-2 bg-cloud-dancer/20 rounded-lg appearance-none cursor-pointer accent-cyber-lime"/>
-                </div>
-                
-                 <div>
-                    <label className="block text-sm font-medium mb-1">Number of Outputs: {config.outputCount}</label>
-                    <input type="range" min="1" max="5" value={config.outputCount} onChange={e => setConfig(p => ({...p, outputCount: +e.target.value}))} className="w-full h-2 bg-cloud-dancer/20 rounded-lg appearance-none cursor-pointer accent-cyber-lime"/>
+                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label className="block text-sm font-medium mb-1 opacity-70">Complexity: {config.complexity}/5</label>
+                        <input type="range" min="0" max="5" value={config.complexity} onChange={e => setConfig(p => ({...p, complexity: +e.target.value}))} className="w-full h-2 bg-cloud-dancer/20 rounded-lg appearance-none cursor-pointer accent-cyber-lime"/>
+                    </div>
+                    
+                    <div>
+                        <label className="block text-sm font-medium mb-1 opacity-70">Number of Outputs: {config.outputCount}</label>
+                        <input type="range" min="1" max="5" value={config.outputCount} onChange={e => setConfig(p => ({...p, outputCount: +e.target.value}))} className="w-full h-2 bg-cloud-dancer/20 rounded-lg appearance-none cursor-pointer accent-cyber-lime"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -111,6 +115,8 @@ const RollView: React.FC<RollViewProps> = ({ addToHistory, addToVault }) => {
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
 
 
+  const [isConfigDrawerOpen, setIsConfigDrawerOpen] = useState(false);
+
   const handleRoll = async () => {
     setIsLoading(true);
     setError(null);
@@ -120,6 +126,7 @@ const RollView: React.FC<RollViewProps> = ({ addToHistory, addToVault }) => {
     setPhase2Result(null);
     setPhase3Result(null);
     setPhase4Result(null);
+    setIsConfigDrawerOpen(false); // Close drawer on mobile after roll
 
     try {
       const result = await generatePhase1(config);
@@ -190,23 +197,36 @@ const RollView: React.FC<RollViewProps> = ({ addToHistory, addToVault }) => {
     // Phase 0: The Dice
     if (phase === 0 && !isLoading && !phase1Result) {
       return (
-        <div className="flex flex-col items-center justify-center h-full">
-            <button onClick={handleRoll} disabled={isLoading} className="group transition-transform duration-500 hover:scale-110">
-                <Icon name="roll" className={`w-48 h-48 text-midnight-navy/50 group-hover:text-cyber-lime ${isLoading ? 'animate-spin' : 'animate-spin-slow'}`} />
-            </button>
-            <p className="mt-4 text-xl font-semibold">Click the dice to roll for new ideas!</p>
+        <div className="flex flex-col items-center justify-center h-full w-full px-6 text-center">
+            <div className="flex-1" /> {/* Top Spacer */}
+            <div className="flex flex-col items-center justify-center">
+                <button onClick={handleRoll} disabled={isLoading} className="group transition-transform duration-500 hover:scale-110 active:scale-90 relative">
+                    <Icon name="roll" className={`w-28 h-28 sm:w-36 sm:h-36 md:w-56 md:h-56 text-midnight-navy/50 group-hover:text-cyber-lime ${isLoading ? 'animate-spin' : 'animate-spin-slow'}`} />
+                </button>
+                <p className="mt-8 text-xl md:text-2xl font-bold tracking-tight">Tap the dice to roll for viral ideas!</p>
+                
+                {/* Mobile Config Trigger */}
+                <button 
+                  onClick={() => setIsConfigDrawerOpen(true)}
+                  className="md:hidden mt-12 flex items-center space-x-3 bg-midnight-navy text-cyber-lime px-10 py-5 rounded-2xl font-bold shadow-2xl active:scale-95 transition-transform"
+                >
+                  <Icon name="settings" className="w-5 h-5" />
+                  <span className="uppercase tracking-widest text-sm">Parameters</span>
+                </button>
+            </div>
+            <div className="flex-1" /> {/* Bottom Spacer for vertical centering on all views */}
         </div>
       );
     }
 
     // Common container for phases 1-4
     return (
-      <div className="p-8 overflow-y-auto h-full space-y-8">
+      <div className="p-4 md:p-8 overflow-y-auto h-full w-full space-y-6 md:space-y-8 pb-32">
         {phase1Result && (
-          <div className="p-6 bg-white rounded-xl shadow-md">
-            <h2 className="text-2xl font-heading font-bold mb-4">Pain Point Summary</h2>
-            <p className="text-midnight-navy/80 whitespace-pre-wrap">{phase1Result.painPointSummary}</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+          <div className="p-5 md:p-8 bg-white rounded-2xl shadow-lg border border-gray-100">
+            <h2 className="text-2xl md:text-3xl font-heading font-bold mb-4 text-midnight-navy">Pain Point Summary</h2>
+            <p className="text-sm md:text-base text-midnight-navy/80 leading-relaxed">{phase1Result.painPointSummary}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8 mt-8">
                 {phase1Result.ideas.map(idea => (
                     <IdeaCard 
                       key={idea.id} 
@@ -223,9 +243,9 @@ const RollView: React.FC<RollViewProps> = ({ addToHistory, addToVault }) => {
         )}
         
         {phase2Result && selectedIdea && (
-           <div className="p-6 bg-white rounded-xl shadow-md">
-                <h2 className="text-2xl font-heading font-bold mb-4">Phase 2: Development Prompt for "{selectedIdea.name}"</h2>
-                <pre className="bg-midnight-navy/5 p-4 rounded-lg text-sm whitespace-pre-wrap font-mono">{phase2Result.developmentPrompt}</pre>
+           <div className="p-4 md:p-6 bg-white rounded-xl shadow-md">
+                <h2 className="text-xl md:text-2xl font-heading font-bold mb-4">Phase 2: Development Prompt for "{selectedIdea.name}"</h2>
+                <pre className="bg-midnight-navy/5 p-3 md:p-4 rounded-lg text-xs md:text-sm whitespace-pre-wrap font-mono overflow-x-auto">{phase2Result.developmentPrompt}</pre>
                 <button onClick={handleProceedToPhase3} disabled={isLoading} className="mt-4 w-full bg-cyber-lime text-midnight-navy font-bold py-3 px-4 rounded-lg min-h-[44px]">
                     {isLoading ? "Generating..." : "Proceed to Phase 03"}
                 </button>
@@ -233,16 +253,16 @@ const RollView: React.FC<RollViewProps> = ({ addToHistory, addToVault }) => {
         )}
 
         {phase3Result && selectedIdea && (
-           <div className="p-6 bg-white rounded-xl shadow-md">
-                <h2 className="text-2xl font-heading font-bold mb-4">Phase 3: Visuals & Functionality for "{selectedIdea.name}"</h2>
-                <div className="grid md:grid-cols-2 gap-6">
+           <div className="p-4 md:p-6 bg-white rounded-xl shadow-md">
+                <h2 className="text-xl md:text-2xl font-heading font-bold mb-4">Phase 3: Visuals & Functionality for "{selectedIdea.name}"</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <h3 className="text-lg font-bold mb-2">Visual Styling Prompt</h3>
-                        <pre className="bg-midnight-navy/5 p-4 rounded-lg text-sm whitespace-pre-wrap font-mono">{phase3Result.visualPrompt}</pre>
+                        <pre className="bg-midnight-navy/5 p-3 md:p-4 rounded-lg text-xs md:text-sm whitespace-pre-wrap font-mono overflow-x-auto">{phase3Result.visualPrompt}</pre>
                     </div>
                      <div>
                         <h3 className="text-lg font-bold mb-2">Expanded Feature List</h3>
-                        <ul className="list-disc list-inside space-y-2 bg-midnight-navy/5 p-4 rounded-lg">
+                        <ul className="list-disc list-inside space-y-2 bg-midnight-navy/5 p-3 md:p-4 rounded-lg text-sm md:text-base">
                             {phase3Result.featureList.map((feature, i) => <li key={i}>{feature}</li>)}
                         </ul>
                     </div>
@@ -254,29 +274,29 @@ const RollView: React.FC<RollViewProps> = ({ addToHistory, addToVault }) => {
         )}
         
         {phase4Result && selectedIdea && (
-           <div className="p-6 bg-white rounded-xl shadow-md">
-                <h2 className="text-2xl font-heading font-bold mb-4">Phase 4: Marketing for "{selectedIdea.name}"</h2>
+           <div className="p-4 md:p-6 bg-white rounded-xl shadow-md">
+                <h2 className="text-xl md:text-2xl font-heading font-bold mb-4">Phase 4: Marketing for "{selectedIdea.name}"</h2>
                 <div className="space-y-6">
                     <div>
                         <h3 className="text-lg font-bold mb-2">Viral Ad Copy</h3>
                         <div className="space-y-4">
                             {phase4Result.adCopies.map((ad, i) => (
-                                <div key={i} className="bg-midnight-navy/5 p-4 rounded-lg">
-                                    <p className="font-semibold italic">Pain Point: {ad.painPoint}</p>
-                                    <p className="my-2"><strong>Ad Copy:</strong> {ad.copy}</p>
-                                    <p className="text-xs text-midnight-navy/60"><strong>Image Prompt:</strong> {ad.imagePrompt}</p>
+                                <div key={i} className="bg-midnight-navy/5 p-3 md:p-4 rounded-lg">
+                                    <p className="font-semibold italic text-sm md:text-base">Pain Point: {ad.painPoint}</p>
+                                    <p className="my-2 text-sm md:text-base"><strong>Ad Copy:</strong> {ad.copy}</p>
+                                    <p className="text-[10px] md:text-xs text-midnight-navy/60"><strong>Image Prompt:</strong> {ad.imagePrompt}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
                     <div>
                         <h3 className="text-lg font-bold mb-2">Pricing Guide</h3>
-                        <div className="grid md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {phase4Result.pricingGuide.map(tier => (
                                 <div key={tier.tier} className="bg-midnight-navy/5 p-4 rounded-lg border-t-4 border-cyber-lime">
-                                    <p className="font-bold text-xl">{tier.tier}</p>
-                                    <p className="text-3xl font-heading">${tier.price}<span className="text-base font-body">/mo</span></p>
-                                    <p className="text-sm text-midnight-navy/70 mt-2">{tier.description}</p>
+                                    <p className="font-bold text-lg md:text-xl">{tier.tier}</p>
+                                    <p className="text-2xl md:text-3xl font-heading">${tier.price}<span className="text-sm md:text-base font-body">/mo</span></p>
+                                    <p className="text-xs md:text-sm text-midnight-navy/70 mt-2">{tier.description}</p>
                                 </div>
                             ))}
                         </div>
@@ -292,20 +312,55 @@ const RollView: React.FC<RollViewProps> = ({ addToHistory, addToVault }) => {
   };
   
   return (
-    <div className="flex h-full">
-      <div className="flex-grow bg-cloud-dancer">
+    <div className="flex flex-col md:flex-row h-full relative">
+      <div className="flex-1 h-full bg-cloud-dancer relative overflow-hidden flex flex-col">
          {isLoading && (
-            <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center z-50">
-                <Icon name="roll" className="w-24 h-24 text-cyber-lime animate-spin"/>
-                <p className="text-white text-xl mt-4">AI is working its magic...</p>
+            <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center z-50 backdrop-blur-sm">
+                <Icon name="roll" className="w-16 h-16 md:w-24 md:h-24 text-cyber-lime animate-spin"/>
+                <p className="text-white text-lg md:text-xl mt-4 font-bold">AI is working its magic...</p>
             </div>
         )}
-        {error && <div className="p-4 bg-red-500 text-white text-center">{error}</div>}
+        {error && <div className="p-4 bg-red-500 text-white text-center font-bold z-50 relative">{error}</div>}
         {renderPhaseContent()}
+        
+        {/* Mobile Config Toggle Button (Floating) */}
+        {phase !== 0 && (
+          <button 
+            onClick={() => setIsConfigDrawerOpen(true)}
+            className="md:hidden fixed bottom-20 right-4 bg-midnight-navy text-cyber-lime p-4 rounded-full shadow-2xl z-40 border border-white/10"
+          >
+            <Icon name="settings" className="w-6 h-6" />
+          </button>
+        )}
       </div>
-       <div className="w-[350px] flex-shrink-0">
+
+      {/* Desktop Config Panel */}
+      <div className="hidden md:block w-[350px] flex-shrink-0 border-l border-midnight-navy/5">
           <ConfigPanel config={config} setConfig={setConfig} />
       </div>
+
+      {/* Mobile Config Drawer (Overlay) */}
+      {isConfigDrawerOpen && (
+        <div className="md:hidden fixed inset-0 z-[60] flex flex-col">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsConfigDrawerOpen(false)} />
+          <div className="mt-auto bg-midnight-navy rounded-t-3xl p-6 relative z-10 max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom duration-300">
+            <div className="w-12 h-1 bg-white/20 rounded-full mx-auto mb-6" />
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-heading text-cyber-lime font-bold">Roll Parameters</h3>
+              <button onClick={() => setIsConfigDrawerOpen(false)} className="text-cloud-dancer/60 hover:text-white">
+                <Icon name="close" className="w-6 h-6" />
+              </button>
+            </div>
+            <ConfigPanel config={config} setConfig={setConfig} />
+            <button 
+              onClick={() => { handleRoll(); setIsConfigDrawerOpen(false); }}
+              className="mt-8 w-full bg-cyber-lime text-midnight-navy font-bold py-4 rounded-xl shadow-lg active:scale-95 transition-transform"
+            >
+              Roll for Ideas
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

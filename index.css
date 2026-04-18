@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cloud-dancer: #F0F2F5;
+  --color-midnight-navy: #0D1B2A;
+  --color-cyber-lime: #CCFF00;
+  
+  --font-heading: "Titillium Web", "Bahnschrift", sans-serif;
+  --font-body: "Red Hat Display", sans-serif;
+  
+  --animate-spin-slow: spin 8s linear infinite;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-cloud-dancer);
+  color: var(--color-midnight-navy);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
