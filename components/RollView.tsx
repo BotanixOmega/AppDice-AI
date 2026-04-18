@@ -30,18 +30,18 @@ const ConfigPanel: React.FC<{config: RollConfig, setConfig: React.Dispatch<React
     };
 
     return (
-        <div className="p-2 space-y-4">
+        <div className="p-2 space-y-4 text-cloud-dancer">
             <h3 className="text-lg font-heading text-cyber-lime md:block hidden">Roll Parameters</h3>
             
             <div className="space-y-4">
                 <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-1 opacity-50">Industry</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-1 opacity-70">Industry</label>
                     <input type="text" value={config.industry} onChange={e => setConfig(p => ({...p, industry: e.target.value}))} className="w-full bg-white/5 p-3 rounded-xl border border-white/10 text-white focus:ring-2 focus:ring-cyber-lime outline-none transition-all text-sm"/>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 opacity-50">Audience</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 opacity-70">Audience</label>
                         <div className="space-y-1.5">
                             {TARGET_AUDIENCES.map(aud => (
                                 <label key={aud} className="flex items-center space-x-2 cursor-pointer group">
@@ -53,7 +53,7 @@ const ConfigPanel: React.FC<{config: RollConfig, setConfig: React.Dispatch<React
                     </div>
 
                     <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 opacity-50">Platform</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 opacity-70">Platform</label>
                         <div className="space-y-1.5">
                             {PLATFORMS.map(plat => (
                                 <label key={plat} className="flex items-center space-x-2 cursor-pointer group">
@@ -66,10 +66,10 @@ const ConfigPanel: React.FC<{config: RollConfig, setConfig: React.Dispatch<React
                 </div>
 
                 <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 opacity-50">Subscription Value</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 opacity-70">Subscription Value</label>
                     <div className="flex flex-wrap gap-1.5">
                         {SUBSCRIPTION_VALUES.map(val => (
-                            <button key={val} onClick={() => setConfig(p => ({...p, subscriptionValue: val}))} className={`px-3 py-1.5 text-[10px] font-bold rounded-lg border transition-all ${config.subscriptionValue === val ? 'bg-cyber-lime text-midnight-navy border-cyber-lime' : 'border-white/10 hover:bg-white/5'}`}>
+                            <button key={val} onClick={() => setConfig(p => ({...p, subscriptionValue: val}))} className={`px-3 py-1.5 text-[10px] font-bold rounded-lg border transition-all ${config.subscriptionValue === val ? 'bg-cyber-lime text-midnight-navy border-cyber-lime' : 'border-white/10 hover:bg-white/5 text-cloud-dancer'}`}>
                                 ${val}
                             </button>
                         ))}
@@ -78,7 +78,7 @@ const ConfigPanel: React.FC<{config: RollConfig, setConfig: React.Dispatch<React
 
                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-1 opacity-50">Complexity</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-1 opacity-70">Complexity</label>
                         <select 
                             value={config.complexity} 
                             onChange={e => setConfig(p => ({...p, complexity: +e.target.value}))}
@@ -89,7 +89,7 @@ const ConfigPanel: React.FC<{config: RollConfig, setConfig: React.Dispatch<React
                     </div>
                     
                     <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-1 opacity-50">Outputs</label>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-1 opacity-70">Outputs</label>
                         <select 
                             value={config.outputCount} 
                             onChange={e => setConfig(p => ({...p, outputCount: +e.target.value}))}
@@ -347,7 +347,7 @@ const RollView: React.FC<RollViewProps> = ({ addToHistory, addToVault }) => {
       </div>
 
       {/* Desktop Config Panel */}
-      <div className="hidden md:block w-[350px] flex-shrink-0 border-l border-midnight-navy/5">
+      <div className="hidden md:block w-[350px] flex-shrink-0 border-l border-white/5 bg-midnight-navy p-6 overflow-y-auto">
           <ConfigPanel config={config} setConfig={setConfig} />
       </div>
 
