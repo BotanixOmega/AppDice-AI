@@ -87,6 +87,28 @@ const App: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobile Bottom Nav */}
+      <div className="md:hidden flex-shrink-0 bg-midnight-navy text-cloud-dancer h-[calc(4.5rem+env(safe-area-inset-bottom))] flex items-center justify-around z-[60] border-t border-white/10 px-2 pb-[env(safe-area-inset-bottom)]">
+        {[
+          { id: 'roll', icon: 'roll', label: 'Roll' },
+          { id: 'dashboard', icon: 'dashboard', label: 'Dash' },
+          { id: 'history', icon: 'history', label: 'History' },
+          { id: 'vault', icon: 'vault', label: 'Vault' },
+          { id: 'settings', icon: 'settings', label: 'Settings' },
+        ].map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setCurrentView(item.id as MenuItem)}
+            className={`flex flex-col items-center justify-center space-y-1 flex-1 h-full transition-colors ${
+              currentView === item.id ? 'text-cyber-lime' : 'text-cloud-dancer/60'
+            }`}
+          >
+            <Icon name={item.icon} className="w-5 h-5" />
+            <span className="text-[10px] font-bold uppercase tracking-tighter">{item.label}</span>
+          </button>
+        ))}
+      </div>
+
       {/* Global Footer - Locked across the bottom */}
       <footer className="flex-shrink-0 bg-midnight-navy text-cloud-dancer/40 border-t border-white/10 px-6 py-3 flex flex-col md:flex-row items-center justify-between text-[10px] uppercase tracking-[0.2em] font-bold z-50">
         <div className="flex items-center space-x-4">
@@ -99,31 +121,9 @@ const App: React.FC = () => {
           <span className="text-cyber-lime">Active</span>
         </div>
         <div className="mt-2 md:mt-0">
-          Powered by <span className="text-cyber-lime/60">Taoana Systems</span>
+          Powered by <span className="text-cyber-lime/60">MO TAOANA</span>
         </div>
       </footer>
-
-      {/* Mobile Bottom Nav */}
-      <div className="md:hidden flex-shrink-0 bg-midnight-navy text-cloud-dancer h-[calc(4.5rem+env(safe-area-inset-bottom))] flex items-center justify-around z-[60] border-t border-white/10 px-2 pb-[env(safe-area-inset-bottom)]">
-          {[
-            { id: 'roll', icon: 'roll', label: 'Roll' },
-            { id: 'dashboard', icon: 'dashboard', label: 'Dash' },
-            { id: 'history', icon: 'history', label: 'History' },
-            { id: 'vault', icon: 'vault', label: 'Vault' },
-            { id: 'settings', icon: 'settings', label: 'Settings' },
-          ].map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setCurrentView(item.id as MenuItem)}
-              className={`flex flex-col items-center justify-center space-y-1 flex-1 h-full transition-colors ${
-                currentView === item.id ? 'text-cyber-lime' : 'text-cloud-dancer/60'
-              }`}
-            >
-              <Icon name={item.icon} className="w-5 h-5" />
-              <span className="text-[10px] font-bold uppercase tracking-tighter">{item.label}</span>
-            </button>
-          ))}
-        </div>
     </div>
   );
 };

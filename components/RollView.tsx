@@ -30,35 +30,35 @@ const ConfigPanel: React.FC<{config: RollConfig, setConfig: React.Dispatch<React
     };
 
     return (
-        <div className="p-4 bg-midnight-navy text-cloud-dancer h-full overflow-y-auto pb-24 md:pb-4">
-            <h3 className="text-xl font-heading text-cyber-lime mb-4">Roll Parameters</h3>
+        <div className="p-2 space-y-4">
+            <h3 className="text-lg font-heading text-cyber-lime md:block hidden">Roll Parameters</h3>
             
-            <div className="grid grid-cols-1 gap-6">
+            <div className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium mb-1 opacity-70">Industry</label>
-                    <input type="text" value={config.industry} onChange={e => setConfig(p => ({...p, industry: e.target.value}))} className="w-full bg-cloud-dancer/10 p-3 rounded-xl border border-cloud-dancer/20 focus:ring-2 focus:ring-cyber-lime focus:border-transparent outline-none transition-all"/>
+                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-1 opacity-50">Industry</label>
+                    <input type="text" value={config.industry} onChange={e => setConfig(p => ({...p, industry: e.target.value}))} className="w-full bg-white/5 p-3 rounded-xl border border-white/10 text-white focus:ring-2 focus:ring-cyber-lime outline-none transition-all text-sm"/>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium mb-2 opacity-70">Target Audience</label>
-                        <div className="space-y-2">
+                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 opacity-50">Audience</label>
+                        <div className="space-y-1.5">
                             {TARGET_AUDIENCES.map(aud => (
                                 <label key={aud} className="flex items-center space-x-2 cursor-pointer group">
-                                    <input type="checkbox" checked={config.targetAudience.includes(aud)} onChange={() => handleAudienceChange(aud)} className="form-checkbox h-4 w-4 bg-cloud-dancer/20 border-cloud-dancer/30 text-cyber-lime rounded focus:ring-cyber-lime"/>
-                                    <span className="capitalize text-xs group-hover:text-cyber-lime transition-colors">{aud}</span>
+                                    <input type="checkbox" checked={config.targetAudience.includes(aud)} onChange={() => handleAudienceChange(aud)} className="form-checkbox h-3.5 w-3.5 bg-white/10 border-white/20 text-cyber-lime rounded focus:ring-cyber-lime"/>
+                                    <span className="capitalize text-[10px] font-medium group-hover:text-cyber-lime transition-colors">{aud}</span>
                                 </label>
                             ))}
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-2 opacity-70">Platform</label>
-                        <div className="space-y-2">
+                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 opacity-50">Platform</label>
+                        <div className="space-y-1.5">
                             {PLATFORMS.map(plat => (
                                 <label key={plat} className="flex items-center space-x-2 cursor-pointer group">
-                                    <input type="checkbox" checked={config.platform.includes(plat)} onChange={() => handlePlatformChange(plat)} className="form-checkbox h-4 w-4 bg-cloud-dancer/20 border-cloud-dancer/30 text-cyber-lime rounded focus:ring-cyber-lime"/>
-                                    <span className="capitalize text-xs group-hover:text-cyber-lime transition-colors">{plat}</span>
+                                    <input type="checkbox" checked={config.platform.includes(plat)} onChange={() => handlePlatformChange(plat)} className="form-checkbox h-3.5 w-3.5 bg-white/10 border-white/20 text-cyber-lime rounded focus:ring-cyber-lime"/>
+                                    <span className="capitalize text-[10px] font-medium group-hover:text-cyber-lime transition-colors">{plat}</span>
                                 </label>
                             ))}
                         </div>
@@ -66,25 +66,37 @@ const ConfigPanel: React.FC<{config: RollConfig, setConfig: React.Dispatch<React
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-2 opacity-70">Subscription Value ($)</label>
-                    <div className="flex flex-wrap gap-2">
+                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-2 opacity-50">Subscription Value</label>
+                    <div className="flex flex-wrap gap-1.5">
                         {SUBSCRIPTION_VALUES.map(val => (
-                            <button key={val} onClick={() => setConfig(p => ({...p, subscriptionValue: val}))} className={`px-4 py-2 text-xs font-bold rounded-xl border transition-all ${config.subscriptionValue === val ? 'bg-cyber-lime text-midnight-navy border-cyber-lime shadow-[0_0_10px_rgba(204,255,0,0.3)]' : 'border-cloud-dancer/30 hover:bg-cloud-dancer/10'}`}>
-                                {val}
+                            <button key={val} onClick={() => setConfig(p => ({...p, subscriptionValue: val}))} className={`px-3 py-1.5 text-[10px] font-bold rounded-lg border transition-all ${config.subscriptionValue === val ? 'bg-cyber-lime text-midnight-navy border-cyber-lime' : 'border-white/10 hover:bg-white/5'}`}>
+                                ${val}
                             </button>
                         ))}
                     </div>
                 </div>
 
-                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium mb-1 opacity-70">Complexity: {config.complexity}/5</label>
-                        <input type="range" min="0" max="5" value={config.complexity} onChange={e => setConfig(p => ({...p, complexity: +e.target.value}))} className="w-full h-2 bg-cloud-dancer/20 rounded-lg appearance-none cursor-pointer accent-cyber-lime"/>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-1 opacity-50">Complexity</label>
+                        <select 
+                            value={config.complexity} 
+                            onChange={e => setConfig(p => ({...p, complexity: +e.target.value}))}
+                            className="w-full bg-white/5 px-3 py-2.5 rounded-xl border border-white/10 text-white text-xs outline-none focus:ring-2 focus:ring-cyber-lime"
+                        >
+                            {[1, 2, 3, 4, 5].map(v => <option key={v} value={v} className="bg-midnight-navy">Tier {v}</option>)}
+                        </select>
                     </div>
                     
                     <div>
-                        <label className="block text-sm font-medium mb-1 opacity-70">Number of Outputs: {config.outputCount}</label>
-                        <input type="range" min="1" max="5" value={config.outputCount} onChange={e => setConfig(p => ({...p, outputCount: +e.target.value}))} className="w-full h-2 bg-cloud-dancer/20 rounded-lg appearance-none cursor-pointer accent-cyber-lime"/>
+                        <label className="block text-[10px] font-bold uppercase tracking-widest mb-1 opacity-50">Outputs</label>
+                        <select 
+                            value={config.outputCount} 
+                            onChange={e => setConfig(p => ({...p, outputCount: +e.target.value}))}
+                            className="w-full bg-white/5 px-3 py-2.5 rounded-xl border border-white/10 text-white text-xs outline-none focus:ring-2 focus:ring-cyber-lime"
+                        >
+                            {[1, 2, 3, 4, 5].map(v => <option key={v} value={v} className="bg-midnight-navy">{v} Ideas</option>)}
+                        </select>
                     </div>
                 </div>
             </div>
@@ -339,26 +351,27 @@ const RollView: React.FC<RollViewProps> = ({ addToHistory, addToVault }) => {
           <ConfigPanel config={config} setConfig={setConfig} />
       </div>
 
-      {/* Mobile Config Drawer (Overlay) */}
+      {/* Mobile Config Drawer (Full Screen Overlay) */}
       {isConfigDrawerOpen && (
-        <div className="md:hidden fixed inset-0 z-[60] flex flex-col">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsConfigDrawerOpen(false)} />
-          <div className="mt-auto bg-midnight-navy rounded-t-3xl p-6 relative z-10 max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom duration-300">
-            <div className="w-12 h-1 bg-white/20 rounded-full mx-auto mb-6" />
+        <div className="md:hidden fixed inset-0 z-[100] bg-midnight-navy flex flex-col p-6 animate-in fade-in duration-300">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-2xl font-heading text-cyber-lime font-bold">Roll Parameters</h3>
-              <button onClick={() => setIsConfigDrawerOpen(false)} className="text-cloud-dancer/60 hover:text-white">
+              <button onClick={() => setIsConfigDrawerOpen(false)} className="bg-white/10 p-2 rounded-full text-white">
                 <Icon name="close" className="w-6 h-6" />
               </button>
             </div>
-            <ConfigPanel config={config} setConfig={setConfig} />
+            
+            <div className="flex-1 min-h-0 overflow-y-auto">
+                <ConfigPanel config={config} setConfig={setConfig} />
+            </div>
+
             <button 
               onClick={() => { handleRoll(); setIsConfigDrawerOpen(false); }}
-              className="mt-8 w-full bg-cyber-lime text-midnight-navy font-bold py-4 rounded-xl shadow-lg active:scale-95 transition-transform"
+              className="mt-6 w-full bg-cyber-lime text-midnight-navy font-bold py-5 rounded-2xl shadow-[0_0_20px_rgba(204,255,0,0.3)] active:scale-95 transition-transform flex items-center justify-center space-x-3 mb-4"
             >
-              Roll for Ideas
+              <Icon name="roll" className="w-6 h-6" />
+              <span className="uppercase tracking-widest text-lg">Roll for Ideas</span>
             </button>
-          </div>
         </div>
       )}
     </div>
