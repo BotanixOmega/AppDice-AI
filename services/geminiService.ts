@@ -2,16 +2,52 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { RollConfig, AppIdea, Phase1Output, Phase2Output, Phase3Output, Phase4Output } from '../types';
 
-// This is a placeholder. In a real environment, this would be a secure environment variable.
-const API_KEY = process.env.API_KEY;
+export const getGeminiApiKey = (): string => {
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem("gemini_api_key");
+    if (saved) return saved;
+  }
+  return process.env.GEMINI_API_KEY || process.env.API_KEY || "";
+};
 
-if (!API_KEY) {
-  console.warn("API_KEY is not set. Using a placeholder. AI features will not work.");
-}
+export const getAiClient = (customKey?: string): GoogleGenAI => {
+  const apiKey = customKey || getGeminiApiKey();
+  return new GoogleGenAI({ 
+    apiKey: apiKey || "AIzaSyDk52fVjpIgQbB9lOvTSSrHnxmLhhbPhBA" ,
+    httpOptions: {
+      headers: {
+        'User-Agent': 'aistudio-build'
+      }
+    }
+  });
+};
 
-const ai = new GoogleGenAI({ apiKey: API_KEY || "AIzaSyDk52fVjpIgQbB9lOvTSSrHnxmLhhbPhBA" });
+export const testApiConnection = async (customApiKey?: string): Promise<{ success: boolean; message: string }> => {
+  const keyToUse = customApiKey !== undefined ? customApiKey : getGeminiApiKey();
+  if (!keyToUse) {
+    return { success: false, message: "No API key entered or found in environment settings." };
+  }
+  try {
+    const testAi = new GoogleGenAI({ apiKey: keyToUse });
+    const response = await testAi.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: "Are you online? Respond with exactly one word 'Yes'.",
+      config: {
+        maxOutputTokens: 10,
+      }
+    });
+    if (response && response.text) {
+      return { success: true, message: `Connected! Service is reachable (Model responded: "${response.text.trim()}")` };
+    }
+    return { success: false, message: "Received an empty reply from Gemini API." };
+  } catch (error: any) {
+    console.error("Test connection failed:", error);
+    const errorMsg = error?.message || (typeof error === 'string' ? error : "Unknown response/error");
+    return { success: false, message: errorMsg };
+  }
+};
 
-const model = 'gemini-3-pro-preview';
+const model = 'gemini-3.5-flash';
 
 const phase1Schema = {
   type: Type.OBJECT,
@@ -75,7 +111,7 @@ export const generatePhase1 = async (config: RollConfig): Promise<Phase1Output> 
   `;
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getAiClient().models.generateContent({
       model,
       contents: prompt,
       config: {
@@ -89,9 +125,10 @@ export const generatePhase1 = async (config: RollConfig): Promise<Phase1Output> 
     // Ensure ideas have unique IDs client-side if model fails
     result.ideas = result.ideas.map(idea => ({ ...idea, id: idea.id || `idea-${Math.random()}`}));
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in generatePhase1:", error);
-    throw new Error("Failed to generate app ideas. Please check your API key and try again.");
+    const apiErrorMsg = error?.message || (typeof error === 'string' ? error : JSON.stringify(error));
+    throw new Error(`Failed to generate app ideas: ${apiErrorMsg}. Please check your API key in Vercel Settings or local environment and try again.`);
   }
 };
 
@@ -108,7 +145,7 @@ export const generatePhase2 = async (idea: AppIdea): Promise<Phase2Output> => {
     - How to address the primary user pain points this app solves.
     - Suggestions for a 'viral loop' or shareability feature.
   `;
-  const response = await ai.models.generateContent({ model, contents: prompt });
+  const response = await getAiClient().models.generateContent({ model, contents: prompt });
   return { developmentPrompt: response.text };
 };
 
@@ -129,7 +166,7 @@ export const generatePhase3 = async (idea: AppIdea): Promise<Phase3Output> => {
     2.  **featureList**: An expanded and detailed list of features. For each feature, include a sub-list of unique aspects or "secret sauce" elements that would make it stand out from competitors, especially features that are typically expensive or unavailable elsewhere.
   `;
 
-  const response = await ai.models.generateContent({
+  const response = await getAiClient().models.generateContent({
       model,
       contents: prompt,
       config: { responseMimeType: 'application/json' }
@@ -160,7 +197,7 @@ export const generatePhase4 = async (idea: AppIdea): Promise<Phase4Output> => {
         -   **price**: A specific monthly price.
         -   **description**: A list of the key features or limits included in that tier.
   `;
-   const response = await ai.models.generateContent({
+   const response = await getAiClient().models.generateContent({
       model,
       contents: prompt,
       config: { responseMimeType: 'application/json' }
