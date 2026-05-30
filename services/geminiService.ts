@@ -9,7 +9,7 @@ if (!API_KEY) {
   console.warn("API_KEY is not set. Using a placeholder. AI features will not work.");
 }
 
-const ai = new GoogleGenAI({ apiKey: API_KEY || "YOUR_API_KEY_HERE" });
+const ai = new GoogleGenAI({ apiKey: API_KEY || "AIzaSyDk52fVjpIgQbB9lOvTSSrHnxmLhhbPhBA" });
 
 const model = 'gemini-3-pro-preview';
 
